@@ -9,13 +9,14 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\support\Facades\Log;
+use App\Services\OrderService;
 
 use DB;
 
 class OrderJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-
+    
     /**
      * Create a new job instance.
      *
@@ -23,7 +24,7 @@ class OrderJob implements ShouldQueue
      */
     public function __construct()
     {
-        //
+
     }
 
     /**
@@ -31,17 +32,14 @@ class OrderJob implements ShouldQueue
      *
      * @return void
      */
-    public function handle()
+    public function handle(OrderService $orderService)
     {
-        $orders = DB::table('orders')
-        ->join('orders_lines','orders_lines.order_id','orders.id')
-        ->join('products','products.id','orders_lines.product_id')
-        ->select('orders_lines.id', 'orders_lines.qty as order_line_qty', 'products.cost as product_cost')
-        ->get()
-        ->each(function ($order) {
-            $order->total_cost = $order->order_line_qty * $order->product_cost;
-        });
+        try {
+            $orders = $orderService->getTotalOrder();
 
-        dd($orders);
+            dd($orders);
+        } catch (Exception $exception) {
+            return ResponseHttp('Error', 500);
+        }
     }
 }
