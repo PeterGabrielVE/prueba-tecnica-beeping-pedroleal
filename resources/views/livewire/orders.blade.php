@@ -18,13 +18,13 @@
             @foreach ($orders as $order)
             <tr class="bg-black border-b">
                 <td scope="row" class="dark:bg-gray-800 dark:border-gray-700">
-                    {{ $order->order_ref }}
+                    {{ $order->order_ref ? $order->order_ref : null }}
                 </td>
                 <td class="px-6 py-4 dark:bg-gray-800 dark:border-gray-700">
-                    {{ $order->customer_name }}
+                    {{ $order->customer_name ? $order->customer_name : null }}
                 </td>
                 <td class="px-6 py-4 dark:bg-gray-800 dark:border-gray-700">
-                    {{ $order->total_qty }}
+                    {{ $order->total_qty ? $order->total_qty : null }}
                 </td>
             </tr>
             @endforeach
