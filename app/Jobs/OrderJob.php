@@ -37,7 +37,7 @@ class OrderJob implements ShouldQueue
         try {
             $orders = $orderService->getTotalOrder();
 
-            dd($orders);
+            dd($orders->toArray());
         } catch (Exception $exception) {
             return ResponseHttp('Error', 500);
         }
