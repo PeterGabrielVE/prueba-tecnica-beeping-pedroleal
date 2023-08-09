@@ -42,6 +42,10 @@ return [
             'after_commit' => false,
         ],
 
+        'jobs' => [
+            'OrderJob',
+        ],
+
         'beanstalkd' => [
             'driver' => 'beanstalkd',
             'host' => 'localhost',
