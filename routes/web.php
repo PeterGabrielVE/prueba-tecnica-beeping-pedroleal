@@ -19,6 +19,8 @@ Route::get('/', function () {
 
     OrderJob::dispatch();
 
-    return response("fin");
+    return response("Order Dispatched");
    // return view('welcome');
 });
+
+Route::get('orders','OrdersController@index');
