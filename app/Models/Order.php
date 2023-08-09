@@ -11,4 +11,9 @@ class Order extends Model
 
     protected $table = 'orders';
     protected $fillable = ['order_ref','customer_name'];
+
+    public function ordersLines()
+    {
+        return $this->hasMany(Orderline::class);
+    }
 }

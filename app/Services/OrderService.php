@@ -4,10 +4,13 @@ namespace App\Services;
 
 
 use Illuminate\Http\Request;
+use App\Models\Order;
 use DB;
 
 class OrderService
 {
+
+    public $orders;
 
     public function __construct()
     {
@@ -33,5 +36,23 @@ class OrderService
         }
     }
 
+    public function getTotalQty()
+    {
+        try {
+        
+            $this->orders = Order::with('ordersLines')->get();
+
+            foreach ($this->orders as $order) {
+                $order->total_qty = 0;
+                foreach ($order->ordersLines as $ordersLine) {
+                    $order->total_qty += $ordersLine->qty;
+                }
+            }
+
+            return $this->orders;
+        } catch (Exception $exception) {
+            return ResponseHttp('Error', 500);
+        }
+    }
     
 }
